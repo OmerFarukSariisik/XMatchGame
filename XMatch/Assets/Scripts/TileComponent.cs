@@ -15,10 +15,11 @@ public class TileComponent : MonoBehaviour, IPointerClickHandler
     private bool _isClicked;
     private bool _isFlagged;
 
-    public void Setup(int row, int column)
+    public void Setup(int row, int column, Vector3 position)
     {
         _row = row;
         _column = column;
+        transform.localPosition = position;
     }
     
     public void OnPointerClick(PointerEventData eventData)

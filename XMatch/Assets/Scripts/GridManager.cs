@@ -9,7 +9,6 @@ public class GridManager : MonoBehaviour
 {
     [SerializeField] private TileComponent tileComponent;
     [SerializeField] private GameObject xPrefab;
-    [SerializeField] private int defaultSize = 4;
     
     [Inject] private MatchChecker _matchChecker;
     
@@ -18,13 +17,14 @@ public class GridManager : MonoBehaviour
     
     public Action OnMatch;
 
-    private void Start()
-    {
-        SetSize(defaultSize);
-        BuildGrid();
-    }
 
-    private void SetSize(int size)
+    public void SetScaleAndPosition(float scale, float yPosition)
+    {
+        transform.localScale = new Vector3(scale, scale, 1f);
+        transform.position = new Vector3(0f, yPosition, 0f);
+    }
+    
+    public void SetSize(int size)
     {
         _size = size;
         _matchChecker.SetSize(_size);
@@ -40,7 +40,7 @@ public class GridManager : MonoBehaviour
         BuildGrid();
     }
 
-    private void BuildGrid()
+    public void BuildGrid()
     {
         _tiles = new TileComponent[_size, _size];
         for (var i = 0; i < _size; i++)
@@ -51,9 +51,9 @@ public class GridManager : MonoBehaviour
                 var yPos = i - (_size - 1) / 2f;
                 var position = new Vector3(xPos, yPos, 0);
 
-                var newTile = Instantiate(tileComponent, position, Quaternion.identity, transform);
+                var newTile = Instantiate(tileComponent, transform);
                 _tiles[i, j] = newTile;
-                newTile.Setup(i, j);
+                newTile.Setup(i, j, position);
                 newTile.OnTileClicked += OnTileClicked;
             }
         }

@@ -13,12 +13,23 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TMP_InputField sizeText;
     [SerializeField] private Button rebuildButton;
     
+    [SerializeField] private Camera mainCamera;
+    [SerializeField] private float widthHeightPercentageFactor = 1.15f;
+    [SerializeField] private int defaultSize = 4;
+
     private int _matchCount = 0;
 
     private void Awake()
     {
         rebuildButton.onClick.AddListener(OnRebuildClicked);
         gridManager.OnMatch += OnMatch;
+    }
+
+    private void Start()
+    {
+        gridManager.SetSize(defaultSize);
+        gridManager.BuildGrid();
+        UpdateGridScaleAndPosition(defaultSize);
     }
 
     private void OnRebuildClicked()
@@ -29,8 +40,24 @@ public class GameManager : MonoBehaviour
         gridManager.RebuildGrid(size);
         _matchCount = 0;
         UpdateMatchCountText();
+        UpdateGridScaleAndPosition(size);
     }
-    
+
+    private void UpdateGridScaleAndPosition(int size)
+    {
+        float screenWidth = Screen.width;
+        float screenHeight = Screen.height;
+
+        var screenWorldSize =
+            mainCamera.ScreenToWorldPoint(new Vector3(screenWidth, screenHeight, mainCamera.nearClipPlane));
+        
+        var width = screenWorldSize.x * 2f;
+        var scaleFactor = Mathf.Min(width, screenWorldSize.y * widthHeightPercentageFactor);
+        var scale = scaleFactor / size;
+        var yPos = screenWorldSize.y - (scale * size / 2f);
+        gridManager.SetScaleAndPosition(scale, yPos);
+    }
+
     private void OnMatch()
     {
         _matchCount++;
