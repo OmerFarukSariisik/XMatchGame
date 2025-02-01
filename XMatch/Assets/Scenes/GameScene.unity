@@ -1120,6 +1120,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileComponent: {fileID: 3105738610826279193, guid: 4547eeebd9c903e42ae3a7ddae73ee47, type: 3}
   xPrefab: {fileID: 6103829070126364544, guid: 2ceec7f2d7b540a4db3a85c40030fd95, type: 3}
+  defaultSize: 4
 --- !u!114 &1521352893
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1132,8 +1133,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a033848dec0dc6e45be5229dc8d2d455, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gridManager: {fileID: 1521352892}
   matchCountText: {fileID: 1190067531}
-  sizeText: {fileID: 1971800995}
+  sizeText: {fileID: 159085958}
   rebuildButton: {fileID: 81294120}
 --- !u!1 &1676174165
 GameObject:
